@@ -20,3 +20,15 @@ test('login with empty password', async({ LoginPage }) => {
     );
     await expect(LoginPage.page.getByText('Введите пароль', {exact: true})).toBeVisible();
 });
+
+test('back to exist button', async({ LoginPage, page }) => {
+    await LoginPage.open();
+    await LoginPage.backButton.click()
+    await expect(page).toHaveURL(/\/$/);
+});
+
+test('go to registration button', async({ LoginPage, page }) => {
+    await LoginPage.open();
+    await LoginPage.toRegisterButton.click()
+    await expect(page).toHaveURL(/\/register$/);
+});

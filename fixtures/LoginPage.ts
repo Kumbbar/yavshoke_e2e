@@ -11,9 +11,9 @@ export class LoginPage {
     constructor(public readonly page: Page) {
         this.emailInput = page.getByTestId('login-email-input');
         this.passwordInput = page.getByTestId('login-password-input');
-        this.toRegisterButton = page.getByTestId('register-age-input');
+        this.toRegisterButton = page.getByTestId('login-register-button');
         this.LoginButton = page.getByTestId('login-submit-button');
-        this.backButton = page.getByTestId('login-register-button');
+        this.backButton = page.getByTestId('login-back-button');
     }
 
     async open() {

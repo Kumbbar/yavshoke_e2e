@@ -40,6 +40,12 @@ export default defineConfig({
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
+      dependencies: ['setup']
+    },
+    {
+      name: 'setup',
+      use: { ...devices['Desktop Firefox'] },
+      testMatch: '**/*.setup.ts',
     },
 
  //   {
