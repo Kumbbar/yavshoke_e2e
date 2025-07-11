@@ -2,6 +2,8 @@ import {ShokMainPage} from "./ShokMainPage";
 import {RegistrationPage} from "./RegistrationPage";
 import {LoginPage} from "./LoginPage";
 import {ProfilePage} from "./ProfilePage";
+import {EditPage} from "./EditPage";
+
 import {test as base} from "@playwright/test";
 
 type ShockFixtures = {
@@ -9,6 +11,7 @@ type ShockFixtures = {
     RegistrationPage: RegistrationPage;
     LoginPage: LoginPage;
     ProfilePage: ProfilePage;
+    EditPage: EditPage
 };
 
 export const test = base.extend<ShockFixtures>({
@@ -27,5 +30,9 @@ export const test = base.extend<ShockFixtures>({
     ProfilePage: async ({page}, use) => {
         const profilePage = new ProfilePage(page);
         await use(profilePage);
+    },
+    EditPage: async ({page}, use) => {
+        const editPage = new EditPage(page);
+        await use(editPage);
     }
 });

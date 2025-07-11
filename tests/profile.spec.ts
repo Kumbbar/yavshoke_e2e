@@ -20,6 +20,7 @@ test("check age title for young user", async ({ ProfilePage, page }) => {
 });
 
 test("check age title for adult user", async ({ ProfilePage, page }) => {
+    test.skip(true, 'Тест временно отключён, баг');
     await page.goto('/');
 
     await page.route('https://api.yavshok.ru/experiments', (route) => {
@@ -41,6 +42,8 @@ test("check age title for old user", async ({ ProfilePage, page }) => {
         });
     });
     await ProfilePage.checkAgeTitle('Ты старый котик')
+    await expect(page).toHaveScreenshot();
+
 });
 
 

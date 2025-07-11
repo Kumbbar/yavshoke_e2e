@@ -1,7 +1,8 @@
-import {Locator, Page} from '@playwright/test';
+import {expect, Locator, Page} from '@playwright/test';
+import {BasePage} from "./Base";
 
 
-export class RegistrationPage {
+export class RegistrationPage extends BasePage{
     public emailInput: Locator;
     public passwordInput: Locator;
     public ageInput: Locator;
@@ -9,6 +10,7 @@ export class RegistrationPage {
     public backButton: Locator;
 
     constructor(public readonly page: Page) {
+        super(page);
         this.emailInput = page.getByTestId('register-email-input');
         this.passwordInput = page.getByTestId('register-password-input');
         this.ageInput = page.getByTestId('register-age-input');
@@ -17,10 +19,18 @@ export class RegistrationPage {
     }
 
     async open() {
-        await this.page.goto('/register');
+        await super.open('/register');
     }
 
-    async tryRegister(email: string, password: string,  age: any) {
+    async checkVisibility() {
+        await expect(this.emailInput).toBeVisible()
+        await expect(this.passwordInput).toBeVisible()
+        await expect(this.ageInput).toBeVisible()
+        await expect(this.registerButton).toBeVisible()
+    }
+
+    async register(email: string, password: string,  age: any) {
+        await this.checkVisibility()
         await this.emailInput.fill(email);
         await this.passwordInput.fill(password)
         await this.ageInput.fill(String(age));

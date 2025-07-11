@@ -1,34 +1,48 @@
-import { test } from '../fixtures/index';
-import { getRandomLetters, getRandomIntInRange} from './utils/random';
+import { test } from '../fixtures';
+import { getRandomLetters } from './utils/random';
 import {expect} from "@playwright/test";
 
 
-test('login with empty email', async({ LoginPage }) => {
+test('Окно входа: проверка отображения ошибки при входе с НЕзаполненным email', async({ LoginPage }) => {
     await LoginPage.open();
-    await LoginPage.tryLogin(
-        '',
-        getRandomLetters(6)
-    );
-    await expect(LoginPage.page.getByText('Введите email', {exact: true})).toBeVisible();
+    await test.step('Заполнение email пустотой а пароля 6 рандомными буквами', async () => {
+        await LoginPage.login(
+            '',
+            getRandomLetters(6)
+        );
+    });
+    await expect(
+        LoginPage.page.getByText('Введите email', {exact: true}),
+        'Отображается ошибка о незаполненном email'
+    ).toBeVisible();
 });
 
-test('login with empty password', async({ LoginPage }) => {
+test('Окно входа: проверка отображения ошибки при входе с НЕзаполненным паролем', async({ LoginPage }) => {
     await LoginPage.open();
-    await LoginPage.tryLogin(
-        `${getRandomLetters(8)}@gmail.com`,
-        ''
-    );
-    await expect(LoginPage.page.getByText('Введите пароль', {exact: true})).toBeVisible();
+    await test.step('Заполнение пароля пустотой а email валидным значением', async () => {
+        await LoginPage.login(
+            `${getRandomLetters(8)}@gmail.com`,
+            ''
+        );
+    });
+    await expect(
+        LoginPage.page.getByText('Введите пароль', {exact: true}),
+    'Отображается ошибка о незаполненном пароле'
+    ).toBeVisible();
 });
 
-test('back to exist button', async({ LoginPage, page }) => {
+test('Окно входа: проверка редиректа на начальное окно после нажатия кнопки "Назад"', async({ LoginPage, page }) => {
     await LoginPage.open();
-    await LoginPage.backButton.click()
-    await expect(page).toHaveURL(/\/$/);
+    await test.step('Нажатие кнопки "Назад"', async () => {
+        await LoginPage.backButton.click()
+    });
+    await expect(page, 'Открыта начальная страница').toHaveURL('/');
 });
 
-test('go to registration button', async({ LoginPage, page }) => {
+test('Окно входа: проверка редиректа на окно регистрации после нажатия кнопки "Регистрация"', async({ LoginPage, page }) => {
     await LoginPage.open();
-    await LoginPage.toRegisterButton.click()
-    await expect(page).toHaveURL(/\/register$/);
+    await test.step('Нажатие кнопки "Регистрация"', async () => {
+        await LoginPage.toRegisterButton.click()
+    });
+    await expect(page, 'Открыто окно регистрации').toHaveURL('/register');
 });
