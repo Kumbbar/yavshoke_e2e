@@ -20,58 +20,70 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : 2,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [
+    ['html'],
+    [
+      'allure-playwright',
+      {
+        outputFolder: 'allure-results',
+        detail: true,
+        suiteTitle: false,
+        outputCwd: '.',
+      }
+    ],
+    [
+      'html-reporter/playwright',
+      {
+        enabled: true,
+        defaultView: 'failed',
+        path: 'html-report',
+      }
+    ],
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: 'https://yavshok.ru',
 
+    screenshot: 'only-on-failure',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
   },
 
   /* Configure projects for major browsers */
   projects: [
-//    {
-//      name: 'chromium',
-//      use: { ...devices['Desktop Chrome'] },
-//    },
+    {
+      name: 'login',
+      use: { ...devices['Desktop Firefox'] },
+      testMatch: '**/*login.spec.ts'
+    },
+    {
+      name: 'register',
+      use: { ...devices['Desktop Firefox'] },
+      testMatch: '**/*register.spec.ts'
+    },
 
     {
-      name: 'firefox',
+      name: 'exist',
       use: { ...devices['Desktop Firefox'] },
-      dependencies: ['setup']
+      testMatch: '**/*exist.spec.ts'
+    },
+    {
+      name: 'profile',
+      use: { ...devices['Desktop Firefox'] },
+      dependencies: ['setup'],
+      testMatch: '**/*profile.spec.ts'
+    },
+    {
+      name: 'edit',
+      use: { ...devices['Desktop Firefox'] },
+      dependencies: ['setup'],
+      testMatch: '**/*edit.spec.ts'
     },
     {
       name: 'setup',
       use: { ...devices['Desktop Firefox'] },
       testMatch: '**/*.setup.ts',
     },
-
- //   {
-//      name: 'webkit',
- //     use: { ...devices['Desktop Safari'] },
-    //},
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
   ],
-
 });
