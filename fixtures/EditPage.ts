@@ -1,6 +1,7 @@
 import {expect, Locator, Page} from '@playwright/test';
 import {VALID_USER} from "../tests/data/auth";
-import {BasePage} from "./Base";
+import {BasePage} from "./BasePage";
+import {TIME} from "../tests/config";
 
 
 export class EditPage extends BasePage {
@@ -13,11 +14,7 @@ export class EditPage extends BasePage {
         this.editNameInput = page.getByTestId('edit-name-input');
         this.saveButton = page.getByTestId('edit-save-button');
         this.exitButton = page.getByTestId('edit-cancel-button');
-
-    }
-
-    async open() {
-        await super.open('/edit');
+        this.url = '/edit';
     }
 
     async checkVisibility() {
@@ -30,6 +27,7 @@ export class EditPage extends BasePage {
         await this.checkVisibility()
         await this.editNameInput.fill(name);
         await this.saveButton.click();
+        await this.page.waitForTimeout(TIME.SHORT_TIME);
     }
 
     async returnDefaultName() {

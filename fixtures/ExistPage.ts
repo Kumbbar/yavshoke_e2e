@@ -1,8 +1,8 @@
 import {expect, Locator, Page} from '@playwright/test';
-import {BasePage} from "./Base";
+import {BasePage} from "./BasePage";
 
 
-export class ShokMainPage extends BasePage {
+export class ExistPage extends BasePage {
     public title: Locator;
     public emailInput: Locator;
     public checkButton: Locator;
@@ -14,10 +14,7 @@ export class ShokMainPage extends BasePage {
         this.emailInput = page.getByTestId('main-email-input');
         this.checkButton = page.getByTestId('main-check-button');
         this.toLoginButton = page.getByTestId('main-login-button');
-    }
-
-    async open() {
-        await super.open('/');
+        this.url = '/';
     }
 
     async checkVisibility() {

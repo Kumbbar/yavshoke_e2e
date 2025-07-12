@@ -1,6 +1,5 @@
 import {expect, Locator, Page} from '@playwright/test';
-import {getUserNameFromLocalStorage} from "../tests/utils/user";
-import {BasePage} from "./Base";
+import {BasePage} from "./BasePage";
 
 
 export class ProfilePage extends BasePage{
@@ -14,11 +13,7 @@ export class ProfilePage extends BasePage{
         this.ageTitle = page.getByTestId('main-email-input');
         this.editProfileButton = page.getByTestId('main-check-button');
         this.LogoutButton = page.getByTestId('main-login-button');
-    }
-
-    async open() {
-        await super.open('/');
-        this.userName = this.page.getByText(await getUserNameFromLocalStorage(this.page), {exact: true});
+        this.url = '/';
     }
 
     async checkAgeTitle(title: string) {

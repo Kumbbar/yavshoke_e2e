@@ -6,38 +6,38 @@ import {expect} from "@playwright/test";
 test.use({storageState: 'tests/setup/.auth/user.json'});
 
 
-test('Окно редактирования: проверка сохранения и отображения нового имени', async ({EditPage, page}) => {
-    await EditPage.open();
+test('Окно редактирования: проверка сохранения и отображения нового имени', async ({editPage}) => {
+    await editPage.open();
     await test.step('Заполнение формы именем из конфига и переход на страницу профиля', async () => {
-        await EditPage.editName(VALID_USER.EDIT_NAME);
-        await EditPage.exitButton.click();
-        await expect(page, 'Открыта страница профиля').toHaveURL('/');
+        await editPage.editName(VALID_USER.EDIT_NAME);
+        await editPage.exitButton.click();
+        await expect(editPage.page, 'Открыта страница профиля').toHaveURL('/');
     });
-    await expect(page.getByText(VALID_USER.EDIT_NAME), 'Имя отображается на странице профиля').toBeVisible();
+    await expect(editPage.page.getByText(VALID_USER.EDIT_NAME), 'Имя отображается на странице профиля').toBeVisible();
     await test.step('Возвращаем имя на дефолтное из конфига', async () => {
-        await EditPage.returnDefaultName()
+        await editPage.returnDefaultName()
     });
 });
 
-test('Окно редактирования: проверка отображения ошибки при попытке сохранить пустое поле', async ({EditPage}) => {
-    await EditPage.open();
+test('Окно редактирования: проверка отображения ошибки при попытке сохранить пустое поле', async ({editPage}) => {
+    await editPage.open();
     await test.step('Заполнение поля пустым значением', async () => {
-        await EditPage.editName('');
+        await editPage.editName('');
     });
     await expect(
-        EditPage.page.getByText('Name is required'),
+        editPage.page.getByText('Name is required'),
         'Отображается ошибка о пустом имени'
     ).toBeVisible()
 
 });
 
-test('Окно редактирования: проверка отображения ошибки при попытке сохранить имя длиннее 50 символов', async ({EditPage}) => {
-    await EditPage.open();
+test('Окно редактирования: проверка отображения ошибки при попытке сохранить имя длиннее 50 символов', async ({editPage}) => {
+    await editPage.open();
     await test.step('Заполнение поля именем длинной более 50', async () => {
-        await EditPage.editName(getRandomLetters(51));
+        await editPage.editName(getRandomLetters(51));
     });
     await expect(
-        EditPage.page.getByText('Name must be less than 50 characters'),
+        editPage.page.getByText('Name must be less than 50 characters'),
         'Отображается ошибка о длинне имени более 50'
     ).toBeVisible()
 });

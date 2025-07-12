@@ -1,6 +1,5 @@
 import {expect, Locator, Page} from '@playwright/test';
-import {getUserNameFromLocalStorage} from "../tests/utils/user";
-import {BasePage} from "./Base";
+import {BasePage} from "./BasePage";
 
 
 export class LoginPage extends BasePage{
@@ -17,10 +16,7 @@ export class LoginPage extends BasePage{
         this.toRegisterButton = page.getByTestId('login-register-button');
         this.LoginButton = page.getByTestId('login-submit-button');
         this.backButton = page.getByTestId('login-back-button');
-    }
-
-    async open() {
-        await super.open('/login');
+        this.url = '/login';
     }
 
     async checkVisibility() {

@@ -1,5 +1,5 @@
 import {expect, Locator, Page} from '@playwright/test';
-import {BasePage} from "./Base";
+import {BasePage} from "./BasePage";
 
 
 export class RegistrationPage extends BasePage{
@@ -16,10 +16,7 @@ export class RegistrationPage extends BasePage{
         this.ageInput = page.getByTestId('register-age-input');
         this.registerButton = page.getByTestId('register-submit-button');
         this.backButton = page.getByTestId('register-back-button');
-    }
-
-    async open() {
-        await super.open('/register');
+        this.url = '/register';
     }
 
     async checkVisibility() {
