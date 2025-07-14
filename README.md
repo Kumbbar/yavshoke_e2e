@@ -3,7 +3,7 @@
 Отчеты размещены на диске https://disk.yandex.ru/d/fniHkx8UzHxrww
 
 ---
-Изменния
+Изменения
 
 * Рефакторинг кода
 * Подключение Allure report
